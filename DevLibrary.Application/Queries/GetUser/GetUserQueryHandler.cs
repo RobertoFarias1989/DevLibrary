@@ -4,7 +4,7 @@ using MediatR;
 
 namespace DevLibrary.Application.Queries.GetUser
 {
-    public class GetUserQueryHandler : IRequestHandler<GetUserQuery, UserViewModel>
+    public class GetUserQueryHandler : IRequestHandler<GetUserQuery, UserDetailsViewModel>
     {
         private readonly IUserRepository _userRepository;
 
@@ -13,13 +13,34 @@ namespace DevLibrary.Application.Queries.GetUser
             _userRepository = userRepository;
         }
 
-        public async Task<UserViewModel> Handle(GetUserQuery request, CancellationToken cancellationToken)
+        public async Task<UserDetailsViewModel> Handle(GetUserQuery request, CancellationToken cancellationToken)
         {
-            var user = await _userRepository.GetByIdAsync(request.Id);
+            var user = await _userRepository.GetDetailsByIdAsync(request.Id);
 
             if (user == null) return null;
 
-            return new UserViewModel(user.Name, user.Email);
+            var loans = user.Loans
+                .Where(l => l.IdUser == request.Id)
+                .Select(l => new LoanViewModel
+                {
+                    Id = l.Id,
+                    IdUser = l.IdUser,
+                    IdBook = l.IdBook,
+                    LoanDate = l.LoanDate,
+                    ExpectedReturnDate = l.ExpectedReturnDate,
+                    ReturnedDate = l.ReturnedDate,
+                }).ToList();
+
+            var userDetailsViewModel = new UserDetailsViewModel
+                (user.Id,
+                user.Name,
+                user.Email,
+                user.CreatedAt,
+                user.Active,
+                user.Role,
+                loans);
+
+            return userDetailsViewModel;
         }
     }
 }

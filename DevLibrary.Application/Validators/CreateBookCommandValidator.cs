@@ -16,8 +16,12 @@ namespace DevLibrary.Application.Validators
                 .WithMessage("Author's maximum length is around 100 character.");
 
             RuleFor(b => b.ISBN)
-                .MaximumLength(50)
-                .WithMessage("ISBN's maximum length is around 100 character.");
+                .MaximumLength(13)
+                .WithMessage("ISBN's maximum length is around 13 character.");
+
+            RuleFor(b => b.AddedQuantity)
+                .NotEmpty()
+                .WithMessage("You must inform an added quantity.");
         }
     }
 }

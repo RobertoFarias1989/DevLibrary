@@ -16,11 +16,13 @@ namespace DevLibrary.Application.Commands.CreateBook
 
         public async Task<int> Handle(CreateBookCommand request, CancellationToken cancellationToken)
         {
+
             var book = new Book(request.Title,
                 request.Author,
                 request.ISBN,
-                request.PublicationYear,
-                request.OnHand);
+                request.PublicationYear);
+
+            book.IncreaseOnHand(request.AddedQuantity);
 
             await _bookRepository.AddAsync(book);
 

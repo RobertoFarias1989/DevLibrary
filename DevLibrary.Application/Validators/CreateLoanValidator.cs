@@ -16,6 +16,16 @@ namespace DevLibrary.Application.Validators
               .NotEmpty()
               .NotNull()
               .WithMessage("IdBook is a mandatory field.");
+
+            RuleFor(l => l.LoanedQuantity)
+              .NotEmpty()
+              .NotNull()
+              .WithMessage("LoanedQuantity is a mandatory field.");
+
+            RuleFor(l => l.NumberLoanDay)
+              .NotEmpty()
+              .NotNull()
+              .WithMessage("NumberLoanDay is a mandatory field.");
         }
     }
 }

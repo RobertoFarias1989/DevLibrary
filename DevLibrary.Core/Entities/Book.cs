@@ -4,13 +4,12 @@ namespace DevLibrary.Core.Entities
 {
     public class Book : BaseEntity
     {
-        public Book(string title, string author, string iSBN, int publicationYear, int onHand)
+        public Book(string title, string author, string iSBN, int publicationYear)
         {
             Title = title;
             Author = author;
             ISBN = iSBN;
             PublicationYear = publicationYear;
-            OnHand = onHand;
 
             Status = BookStatusEnum.Available;
             Loans = new List<Loan>();
@@ -20,17 +19,18 @@ namespace DevLibrary.Core.Entities
         public string Author { get; private set; }
         public string ISBN { get; private set; }
         public int PublicationYear { get; private set; }
+        public int AddedQuantity { get; private set; }
+        public int DecreseadQuantity { get; private set; }
         public int OnHand { get; private set; }
         public BookStatusEnum Status { get; private set; }
         public List<Loan> Loans { get; private set; }
 
-        public void Update(string title, string author, string iSBN, int publicationYear, int onHand)
+        public void Update(string title, string author, string iSBN, int publicationYear)
         {
             Title = title;
             Author = author;
             ISBN = iSBN;
             PublicationYear = publicationYear;
-            OnHand = onHand;
         }
 
         public void Unavailable()
@@ -41,9 +41,14 @@ namespace DevLibrary.Core.Entities
             }
         }
 
-        public void DecreaseOnHand(int onHand)
+        public void IncreaseOnHand(int increasedQuantity)
         {
-            OnHand -= onHand;
+            OnHand += increasedQuantity;
+        }
+
+        public void DecreaseOnHand(int decreasedQuantity)
+        {
+            OnHand -= decreasedQuantity;
         }
     }
 }

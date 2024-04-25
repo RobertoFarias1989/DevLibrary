@@ -44,7 +44,7 @@ namespace DevLibrary.API.Controllers
                 return NotFound();
             }
 
-            return Ok();
+            return Ok(book);
         }
 
         [HttpPost]
@@ -65,7 +65,7 @@ namespace DevLibrary.API.Controllers
             return NoContent();
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("unavailable/{id}")]
         [Authorize(Roles ="manager")]
         public async Task<IActionResult> Delete(int id)
         {

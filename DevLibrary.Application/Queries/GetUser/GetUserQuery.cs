@@ -3,7 +3,7 @@ using MediatR;
 
 namespace DevLibrary.Application.Queries.GetUser
 {
-    public class GetUserQuery : IRequest<UserViewModel>
+    public class GetUserQuery : IRequest<UserDetailsViewModel>
     {
         public GetUserQuery(int id)
         {

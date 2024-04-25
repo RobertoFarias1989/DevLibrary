@@ -8,6 +8,6 @@ namespace DevLibrary.Application.Commands.CreateBook
         public string Author { get;  set; }
         public string ISBN { get;  set; }
         public int PublicationYear { get;  set; }
-        public int OnHand { get; set; }
+        public int AddedQuantity { get;  set; }
     }
 }

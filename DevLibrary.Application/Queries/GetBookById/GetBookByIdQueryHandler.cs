@@ -1,4 +1,6 @@
 ﻿using DevLibrary.Application.ViewModels;
+using DevLibrary.Core.Entities;
+using DevLibrary.Core.Enums;
 using DevLibrary.Core.Repositories;
 using MediatR;
 
@@ -15,9 +17,21 @@ namespace DevLibrary.Application.Queries.GetBookById
 
         public async Task<BookDetailsViewModel> Handle(GetBookByIdQuery request, CancellationToken cancellationToken)
         {
-            var book = await _bookRepository.GetByIdAsync(request.Id);
+            var book = await _bookRepository.GetDetailsByIdAsync(request.Id);
 
             if(book == null) return null;
+
+            var loans = book.Loans
+                .Where(l=> l.IdBook == book.Id)
+                .Select(l=>new LoanViewModel 
+                { 
+                    Id = l.Id,
+                    IdUser = l.IdUser,
+                    IdBook = l.IdBook,
+                    LoanDate = l.LoanDate,
+                    ExpectedReturnDate = l.ExpectedReturnDate,
+                    ReturnedDate = l.ReturnedDate
+                }).ToList();
 
             var bookDetailsViewModel = new BookDetailsViewModel(
                 book.Id,
@@ -26,7 +40,8 @@ namespace DevLibrary.Application.Queries.GetBookById
                 book.ISBN,
                 book.PublicationYear,
                 book.OnHand,
-                new List<LoanViewModel>()
+                Enum.GetName(typeof(BookStatusEnum),book.Status),
+                loans
                 ); ;
 
             return bookDetailsViewModel;

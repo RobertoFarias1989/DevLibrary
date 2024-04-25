@@ -10,6 +10,7 @@ namespace DevLibrary.Core.Repositories
     public interface IUserRepository
     {
         Task<User> GetByIdAsync(int id);
+        Task<User> GetDetailsByIdAsync(int id);
         Task AddUserAsync(User user);
         Task<User> GetUserByEmailAndPasswordAsync(string email, string passwordHash);
     }

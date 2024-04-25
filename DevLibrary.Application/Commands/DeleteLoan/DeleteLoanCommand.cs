@@ -10,6 +10,6 @@ namespace DevLibrary.Application.Commands.DeleteLoan
         }
 
         public int Id { get; private set; }
-        public DateTime ReturnedDate { get; private set; }
+        //public DateTime ReturnedDate { get; private set; }
     }
 }

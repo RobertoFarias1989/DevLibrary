@@ -2,6 +2,8 @@ using DevLibrary.API.Filters;
 using DevLibrary.Application.Commands.CreateBook;
 using DevLibrary.Application.Validators;
 using DevLibrary.Core.Repositories;
+using DevLibrary.Core.Services;
+using DevLibrary.Infrastructure.Auth;
 using DevLibrary.Infrastructure.Persistence;
 using DevLibrary.Infrastructure.Persistence.Repositories;
 using FluentValidation.AspNetCore;
@@ -26,6 +28,7 @@ builder.Services.AddMediatR(typeof(CreateBookCommand));
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IBookRepository, BookRepository>();
 builder.Services.AddScoped<ILoanRepository, LoanRepository>();
+builder.Services.AddScoped<IAuthService, AuthService>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

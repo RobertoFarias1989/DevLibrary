@@ -16,9 +16,19 @@ namespace DevLibrary.Application.Commands.UpdateLoan
         {
             var loan = await _loanRepository.GetByIdAsync(request.Id);
 
-            loan.RenewLoan(request.Day);
+            //Só pode renovar o empréstimo de um livro que não foi entregue.
+            if(loan.ReturnedDate == null)
+            {
+                loan.RenewLoan(request.RenewLoanedDay);
 
-            await _loanRepository.SaveChangesAsync();
+                await _loanRepository.SaveChangesAsync();
+            }
+            else
+            {
+                //throw new Exception("It is not allow to renew a loan more than once.");
+
+                throw new Exception("This book already returned.");
+            }
 
             return Unit.Value;
         }

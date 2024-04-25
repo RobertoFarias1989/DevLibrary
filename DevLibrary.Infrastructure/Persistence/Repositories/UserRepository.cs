@@ -29,5 +29,12 @@ namespace DevLibrary.Infrastructure.Persistence.Repositories
             await _dbContext.Users.AddAsync(user);
             await _dbContext.SaveChangesAsync();
         }
+
+        public async Task<User> GetDetailsByIdAsync(int id)
+        {
+            return await _dbContext.Users
+                .Include(u => u.Loans)
+                .SingleOrDefaultAsync(u => u.Id == id);
+        }
     }
 }

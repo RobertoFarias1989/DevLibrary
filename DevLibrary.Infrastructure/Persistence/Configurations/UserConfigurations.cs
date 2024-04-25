@@ -19,13 +19,18 @@ namespace DevLibrary.Infrastructure.Persistence.Configurations
                 .Property(u => u.Email)
                 .HasMaxLength(100);
 
+            //para que assim não seja possível cadastrar o mesmo email duas vezes
+            builder
+                .HasIndex(u => u.Email)
+                .IsUnique();
+
             builder
                 .Property(u => u.Role)
                 .HasMaxLength(100);
 
             builder
                 .Property(u => u.Password)
-                .HasMaxLength(20);
+                .HasMaxLength(100);
 
             builder
                 .HasMany(u => u.Loans)

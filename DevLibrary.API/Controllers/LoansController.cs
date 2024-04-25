@@ -27,8 +27,9 @@ namespace DevLibrary.API.Controllers
             return NoContent();
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("renew/{id}")]
         [Authorize(Roles = "manager")]
+        //Deixaria o nome do método como Put ou coloria algo personalizado tal como: RenewedLoan?
         public async Task<IActionResult> Put(int id, [FromBody] UpdateLoanCommand command)
         {
             await _mediator.Send(command);
@@ -36,8 +37,9 @@ namespace DevLibrary.API.Controllers
             return NoContent();
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("return/{id}")]
         [Authorize(Roles = "manager")]
+        //Deixaria o nome do método como Delete ou coloria algo personalizado tal como: ReturnedLoan?
         public async Task<IActionResult> Delete(int id)
         {
             var command = new DeleteLoanCommand(id);

@@ -21,7 +21,12 @@ namespace DevLibrary.Infrastructure.Persistence.Configurations
 
             builder
                .Property(b => b.ISBN)
-               .HasMaxLength(50);
+               .HasMaxLength(13);
+
+            //para que assim não seja possível cadastrar dois livros com o mesmo ISBN
+            builder
+                .HasIndex(b => b.ISBN)
+                .IsUnique();
 
             builder
                 .HasMany(b => b.Loans)
