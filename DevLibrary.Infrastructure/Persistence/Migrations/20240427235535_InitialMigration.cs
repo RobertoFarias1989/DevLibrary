@@ -19,8 +19,7 @@ namespace DevLibrary.Infrastructure.Persistence.Migrations
                     Author = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     ISBN = table.Column<string>(type: "nvarchar(13)", maxLength: 13, nullable: false),
                     PublicationYear = table.Column<int>(type: "int", nullable: false),
-                    AddedQuantity = table.Column<int>(type: "int", nullable: false),
-                    DecreseadQuantity = table.Column<int>(type: "int", nullable: false),
+                    LoanQuantity = table.Column<int>(type: "int", nullable: false),
                     OnHand = table.Column<int>(type: "int", nullable: false),
                     Status = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
                 },
@@ -55,6 +54,7 @@ namespace DevLibrary.Infrastructure.Persistence.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     IdUser = table.Column<int>(type: "int", nullable: false),
                     IdBook = table.Column<int>(type: "int", nullable: false),
+                    LoanedQuantity = table.Column<int>(type: "int", nullable: false),
                     LoanDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ExpectedReturnDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ReturnedDate = table.Column<DateTime>(type: "datetime2", nullable: true)

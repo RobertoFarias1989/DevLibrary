@@ -3,7 +3,7 @@
     public class UserDetailsViewModel
     {
         public UserDetailsViewModel(int id,
-            string name, string email,DateTime createdAt,bool active, string role, List<LoanViewModel> loans)
+            string name, string email,DateTime createdAt,bool active, string role, List<LoanDetailsViewModel> loans)
         {
             Id = id;
             Name = name;
@@ -20,6 +20,6 @@
         public DateTime CreatedAt { get; private set; }
         public bool Active { get; private set; }
         public string Role { get; private set; }
-        public List<LoanViewModel> Loans { get; private set; }
+        public List<LoanDetailsViewModel> Loans { get; private set; }
     }
 }

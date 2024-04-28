@@ -1,5 +1,6 @@
 ﻿using DevLibrary.Application.Commands.CreateUser;
 using DevLibrary.Application.Commands.LoginUser;
+using DevLibrary.Application.Queries.GetAllUsers;
 using DevLibrary.Application.Queries.GetUser;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -18,11 +19,20 @@ namespace DevLibrary.API.Controllers
         {
             _mediator = mediator;
         }
+        [HttpGet]
+        public async Task<IActionResult> Get(string query)
+        {
+            var getAllUsersQuery = new GetAllUsersQuery(query);
+
+            var users = await _mediator.Send(getAllUsersQuery);
+
+            return Ok(users);
+        }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
-            var query = new GetUserQuery(id);
+            var query = new GetUserByIdQuery(id);
 
             var user = await _mediator.Send(query);
 

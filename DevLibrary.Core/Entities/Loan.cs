@@ -12,10 +12,8 @@ namespace DevLibrary.Core.Entities
         {
             IdUser = idUser;
             IdBook = idBook;
-            //NumberLoanDay = numberLoanDay;
 
-            //LoanedQuanity = null;
-            //ReturnedQuantity = null;
+            LoanedQuantity = 1;
             LoanDate = DateTime.Now;
             ReturnedDate = null;
 
@@ -26,9 +24,7 @@ namespace DevLibrary.Core.Entities
         public User User { get; private set; }
         public int IdBook { get; private set; }
         public Book Book { get; private set; }
-        //public int? LoanedQuanity { get; private set; }
-        //public int? ReturnedQuantity { get; private set; }
-        //public int NumberLoanDay { get; private set; }
+        public int LoanedQuantity { get; private set; }
         public DateTime LoanDate { get; private set; }
         public DateTime ExpectedReturnDate { get; private set; }
         public DateTime? ReturnedDate { get; private set; }

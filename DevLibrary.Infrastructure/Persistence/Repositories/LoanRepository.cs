@@ -12,6 +12,12 @@ namespace DevLibrary.Infrastructure.Persistence.Repositories
         {
             _dbContext = dbContext;
         }
+
+        public async Task<List<Loan>> GetAllAsync()
+        {
+           return await _dbContext.Loans.ToListAsync();
+        }
+
         public async Task<Loan> GetByIdAsync(int id)
         {
             return await _dbContext.Loans.SingleOrDefaultAsync(l => l.Id == id);
@@ -27,5 +33,7 @@ namespace DevLibrary.Infrastructure.Persistence.Repositories
         {
             await _dbContext.SaveChangesAsync();
         }
+
+
     }
 }

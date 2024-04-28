@@ -1,11 +1,11 @@
 ﻿using DevLibrary.Application.ViewModels;
 using MediatR;
 
-namespace DevLibrary.Application.Queries.GetUser
+namespace DevLibrary.Application.Queries.GetLoanById
 {
-    public class GetUserQuery : IRequest<UserDetailsViewModel>
+    public class GetLoanByIdQuery : IRequest<LoanDetailsViewModel>
     {
-        public GetUserQuery(int id)
+        public GetLoanByIdQuery(int id)
         {
             Id = id;
         }

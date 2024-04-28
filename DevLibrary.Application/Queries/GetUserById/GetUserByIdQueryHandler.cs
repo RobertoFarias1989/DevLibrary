@@ -4,16 +4,16 @@ using MediatR;
 
 namespace DevLibrary.Application.Queries.GetUser
 {
-    public class GetUserQueryHandler : IRequestHandler<GetUserQuery, UserDetailsViewModel>
+    public class GetUserByIdQueryHandler : IRequestHandler<GetUserByIdQuery, UserDetailsViewModel>
     {
         private readonly IUserRepository _userRepository;
 
-        public GetUserQueryHandler(IUserRepository userRepository)
+        public GetUserByIdQueryHandler(IUserRepository userRepository)
         {
             _userRepository = userRepository;
         }
 
-        public async Task<UserDetailsViewModel> Handle(GetUserQuery request, CancellationToken cancellationToken)
+        public async Task<UserDetailsViewModel> Handle(GetUserByIdQuery request, CancellationToken cancellationToken)
         {
             var user = await _userRepository.GetDetailsByIdAsync(request.Id);
 
@@ -21,15 +21,15 @@ namespace DevLibrary.Application.Queries.GetUser
 
             var loans = user.Loans
                 .Where(l => l.IdUser == request.Id)
-                .Select(l => new LoanViewModel
-                {
-                    Id = l.Id,
-                    IdUser = l.IdUser,
-                    IdBook = l.IdBook,
-                    LoanDate = l.LoanDate,
-                    ExpectedReturnDate = l.ExpectedReturnDate,
-                    ReturnedDate = l.ReturnedDate,
-                }).ToList();
+                .Select(l => new LoanDetailsViewModel(
+                    l.Id,
+                    l.IdUser,
+                    l.IdBook,
+                    l.LoanedQuantity,
+                    l.LoanDate,
+                    l.ExpectedReturnDate,
+                    l.ReturnedDate
+                )).ToList();
 
             var userDetailsViewModel = new UserDetailsViewModel
                 (user.Id,

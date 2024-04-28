@@ -13,10 +13,21 @@ namespace DevLibrary.Infrastructure.Persistence.Repositories
         {
             _dbContext = dbContext;
         }
+        public async Task<List<User>> GetAllAsync()
+        {
+            return await _dbContext.Users.ToListAsync();
+        }
 
         public async Task<User> GetByIdAsync(int id)
         {
             return await _dbContext.Users.SingleOrDefaultAsync(u => u.Id == id);
+        }
+
+        public async Task<User> GetDetailsByIdAsync(int id)
+        {
+            return await _dbContext.Users
+                .Include(u => u.Loans)
+                .SingleOrDefaultAsync(u => u.Id == id);
         }
 
         public async Task<User> GetUserByEmailAndPasswordAsync(string email, string passwordHash)
@@ -30,11 +41,8 @@ namespace DevLibrary.Infrastructure.Persistence.Repositories
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task<User> GetDetailsByIdAsync(int id)
-        {
-            return await _dbContext.Users
-                .Include(u => u.Loans)
-                .SingleOrDefaultAsync(u => u.Id == id);
-        }
+
+
+
     }
 }

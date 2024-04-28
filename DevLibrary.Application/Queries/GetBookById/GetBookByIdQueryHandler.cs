@@ -21,17 +21,30 @@ namespace DevLibrary.Application.Queries.GetBookById
 
             if(book == null) return null;
 
+            //var loans = book.Loans
+            //    .Where(l=> l.IdBook == book.Id)
+            //    .Select(l=>new LoanDetailsViewModel 
+            //    { 
+            //        Id = l.Id,
+            //        IdUser = l.IdUser,
+            //        IdBook = l.IdBook,
+            //        LoanDate = l.LoanDate,
+            //        LoanedQuantity = l.LoanedQuantity,
+            //        ExpectedReturnDate = l.ExpectedReturnDate,
+            //        ReturnedDate = l.ReturnedDate
+            //    }).ToList();
+
             var loans = book.Loans
-                .Where(l=> l.IdBook == book.Id)
-                .Select(l=>new LoanViewModel 
-                { 
-                    Id = l.Id,
-                    IdUser = l.IdUser,
-                    IdBook = l.IdBook,
-                    LoanDate = l.LoanDate,
-                    ExpectedReturnDate = l.ExpectedReturnDate,
-                    ReturnedDate = l.ReturnedDate
-                }).ToList();
+                .Where(l => l.IdBook == book.Id)
+                .Select(l => new LoanDetailsViewModel(                
+                    l.Id,
+                    l.IdUser,
+                    l.IdBook,
+                    l.LoanedQuantity,
+                    l.LoanDate,                    
+                    l.ExpectedReturnDate,
+                    l.ReturnedDate
+                )).ToList();
 
             var bookDetailsViewModel = new BookDetailsViewModel(
                 book.Id,
@@ -39,6 +52,7 @@ namespace DevLibrary.Application.Queries.GetBookById
                 book.Author,
                 book.ISBN,
                 book.PublicationYear,
+                book.LoanQuantity,
                 book.OnHand,
                 Enum.GetName(typeof(BookStatusEnum),book.Status),
                 loans

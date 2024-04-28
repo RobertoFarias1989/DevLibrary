@@ -19,8 +19,7 @@ namespace DevLibrary.Core.Entities
         public string Author { get; private set; }
         public string ISBN { get; private set; }
         public int PublicationYear { get; private set; }
-        public int AddedQuantity { get; private set; }
-        public int DecreseadQuantity { get; private set; }
+        public int LoanQuantity { get; private set; } 
         public int OnHand { get; private set; }
         public BookStatusEnum Status { get; private set; }
         public List<Loan> Loans { get; private set; }
@@ -48,7 +47,14 @@ namespace DevLibrary.Core.Entities
 
         public void DecreaseOnHand(int decreasedQuantity)
         {
+            LoanQuantity += decreasedQuantity;
             OnHand -= decreasedQuantity;
+        }
+
+        public void ReturnedOnHand(int returnedQuantity)
+        {
+            LoanQuantity -= returnedQuantity;
+            OnHand += returnedQuantity;
         }
     }
 }

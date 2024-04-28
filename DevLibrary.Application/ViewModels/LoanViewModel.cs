@@ -2,11 +2,16 @@
 {
     public class LoanViewModel
     {
+        public LoanViewModel(int id, int idUser, int idBook)
+        {
+            Id = id;
+            IdUser = idUser;
+            IdBook = idBook;
+        }
+
         public int Id { get;  set; }
         public int IdUser { get;  set; }
         public int IdBook { get;  set; }
-        public DateTime LoanDate { get;  set; }
-        public DateTime ExpectedReturnDate { get;  set; }
-        public DateTime? ReturnedDate { get;  set; }
+
     }
 }

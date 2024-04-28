@@ -27,5 +27,13 @@ namespace DevLibrary.Core.Entities
         public string Password { get; private set; }
         public string Role { get; private set; }
         public List<Loan> Loans { get; private set; }
+
+        public void Inactive()
+        {
+            if (Active == true)
+            {
+                Active = false;
+            }
+        }
     }
 }

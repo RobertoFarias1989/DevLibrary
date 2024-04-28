@@ -1,4 +1,5 @@
 ﻿using DevLibrary.Core.Entities;
+using DevLibrary.Core.Enums;
 using DevLibrary.Core.Repositories;
 using MediatR;
 
@@ -29,6 +30,13 @@ namespace DevLibrary.Application.Commands.CreateLoan
             if(user is null || book is null)
             {
                 throw new ArgumentException("User, book or both of them are not existed.");
+            }
+
+            //Livros com status unavailable não podem ser objeto de empréstimo
+
+            if(book.Result.Status == BookStatusEnum.Unavailable)
+            {
+                throw new ArgumentException("This book is unavailable for a loan.");
             }
 
             //Somente um exemplar por empréstimo

@@ -30,21 +30,18 @@ namespace DevLibrary.Infrastructure.Persistence.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("AddedQuantity")
-                        .HasColumnType("int");
-
                     b.Property<string>("Author")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<int>("DecreseadQuantity")
-                        .HasColumnType("int");
-
                     b.Property<string>("ISBN")
                         .IsRequired()
                         .HasMaxLength(13)
                         .HasColumnType("nvarchar(13)");
+
+                    b.Property<int>("LoanQuantity")
+                        .HasColumnType("int");
 
                     b.Property<int>("OnHand")
                         .HasColumnType("int");
@@ -89,6 +86,9 @@ namespace DevLibrary.Infrastructure.Persistence.Migrations
 
                     b.Property<DateTime>("LoanDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<int>("LoanedQuantity")
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("ReturnedDate")
                         .HasColumnType("datetime2");
