@@ -1,4 +1,5 @@
 ﻿using DevLibrary.Core.Entities;
+using DevLibrary.Core.Models;
 using DevLibrary.Core.Repositories;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,14 +9,22 @@ namespace DevLibrary.Infrastructure.Persistence.Repositories
     {
      
         private readonly DevLibraryDbContext _dbContext;
+        private const int PAGE_SIZE = 2;
 
         public UserRepository(DevLibraryDbContext dbContext)
         {
             _dbContext = dbContext;
         }
-        public async Task<List<User>> GetAllAsync()
+        public async Task<PaginationResult<User>> GetAllAsync(string query, int page)
         {
-            return await _dbContext.Users.AsNoTracking().ToListAsync();
+            IQueryable<User> users = _dbContext.Users;
+
+            if (!string.IsNullOrEmpty(query))
+            {
+                users = users.Where(u => u.Name.Contains(query) || u.Equals(query));
+            }
+
+            return await users.GetPaged<User>(page, PAGE_SIZE);
         }
 
         public async Task<User> GetByIdAsync(int id)

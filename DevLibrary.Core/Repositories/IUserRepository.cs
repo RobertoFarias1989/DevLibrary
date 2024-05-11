@@ -1,4 +1,5 @@
 ﻿using DevLibrary.Core.Entities;
+using DevLibrary.Core.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace DevLibrary.Core.Repositories
 {
     public interface IUserRepository
     {
-        Task<List<User>> GetAllAsync();
+        Task<PaginationResult<User>> GetAllAsync(string query, int page = 1);
         Task<User> GetByIdAsync(int id);
         Task<User> GetDetailsByIdAsync(int id);
         Task AddUserAsync(User user);

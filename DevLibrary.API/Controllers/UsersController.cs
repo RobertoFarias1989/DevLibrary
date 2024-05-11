@@ -19,10 +19,11 @@ namespace DevLibrary.API.Controllers
         {
             _mediator = mediator;
         }
-        [HttpGet]
-        public async Task<IActionResult> Get(string query)
+
+        [HttpGet]        
+        public async Task<IActionResult> Get(string? query, int page = 1)
         {
-            var getAllUsersQuery = new GetAllUsersQuery(query);
+            var getAllUsersQuery = new GetAllUsersQuery(query, page);
 
             var users = await _mediator.Send(getAllUsersQuery);
 

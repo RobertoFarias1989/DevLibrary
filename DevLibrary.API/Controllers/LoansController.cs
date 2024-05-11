@@ -22,9 +22,9 @@ namespace DevLibrary.API.Controllers
         }
         [HttpGet]
         [Authorize(Roles = "manager, student")]
-        public async Task<IActionResult> Get(string query) 
+        public async Task<IActionResult> Get() 
         { 
-            var getAllLoansQuery = new GetAllLoansQuery(query);
+            var getAllLoansQuery = new GetAllLoansQuery();
 
             var loan = await _mediator.Send(getAllLoansQuery);
 
