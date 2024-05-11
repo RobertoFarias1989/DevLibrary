@@ -15,7 +15,7 @@ namespace DevLibrary.Infrastructure.Persistence.Repositories
         }
         public async Task<List<User>> GetAllAsync()
         {
-            return await _dbContext.Users.ToListAsync();
+            return await _dbContext.Users.AsNoTracking().ToListAsync();
         }
 
         public async Task<User> GetByIdAsync(int id)

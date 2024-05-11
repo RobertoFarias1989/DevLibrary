@@ -15,7 +15,7 @@ namespace DevLibrary.Infrastructure.Persistence.Repositories
 
         public async Task<List<Loan>> GetAllAsync()
         {
-           return await _dbContext.Loans.ToListAsync();
+           return await _dbContext.Loans.AsNoTracking().ToListAsync();
         }
 
         public async Task<Loan> GetByIdAsync(int id)

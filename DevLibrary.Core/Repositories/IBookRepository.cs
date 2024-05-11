@@ -1,15 +1,11 @@
 ﻿using DevLibrary.Core.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using DevLibrary.Core.Models;
 
 namespace DevLibrary.Core.Repositories
 {
     public interface IBookRepository
     {
-        Task<List<Book>> GetAllSync();
+        Task<PaginationResult<Book>> GetAllAsync(string query, int page = 1);
         Task<Book> GetDetailsByIdAsync(int id);
         Task<Book> GetByIdAsync(int id);
         Task AddAsync(Book book);

@@ -1,15 +1,12 @@
 ﻿using DevLibrary.Application.ViewModels;
+using DevLibrary.Core.Models;
 using MediatR;
 
 namespace DevLibrary.Application.Queries.GetAllBooks
 {
-    public class GetAllBooksQuery : IRequest<List<BookViewModel>>
+    public class GetAllBooksQuery : IRequest<PaginationResult<BookViewModel>>
     {
-        public GetAllBooksQuery(string query)
-        {
-            Query = query;
-        }
-
-        public string Query { get; private set; }
+        public string Query { get;   set; }
+        public int Page { get;  set; } = 1;
     }
 }

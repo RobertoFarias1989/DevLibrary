@@ -1,10 +1,11 @@
 ﻿using DevLibrary.Application.ViewModels;
+using DevLibrary.Core.Models;
 using DevLibrary.Core.Repositories;
 using MediatR;
 
 namespace DevLibrary.Application.Queries.GetAllBooks
 {
-    public class GetAllBooksQueryHandler : IRequestHandler<GetAllBooksQuery, List<BookViewModel>>
+    public class GetAllBooksQueryHandler : IRequestHandler<GetAllBooksQuery, PaginationResult<BookViewModel>>
     {
         private readonly IBookRepository _bookRepository;
 
@@ -13,15 +14,24 @@ namespace DevLibrary.Application.Queries.GetAllBooks
             _bookRepository = bookRepository;
         }
 
-        public async Task<List<BookViewModel>> Handle(GetAllBooksQuery request, CancellationToken cancellationToken)
+        public async Task<PaginationResult<BookViewModel>> Handle(GetAllBooksQuery request, CancellationToken cancellationToken)
         {
-            var books = await _bookRepository.GetAllSync();
+            var paginationBooks = await _bookRepository.GetAllAsync(request.Query, request.Page);
 
-            var bookViewModel = books
+            var booksViewModel = paginationBooks
+                .Data
                 .Select(b => new BookViewModel(b.Id,b.Title,b.Author))
                 .ToList();
 
-            return bookViewModel;
+            var paginationBooksViewModel = new PaginationResult<BookViewModel>(
+                paginationBooks.Page,
+                paginationBooks.TotalPages,
+                paginationBooks.PageSize,
+                paginationBooks.ItemsCount,
+                booksViewModel
+                );
+
+            return paginationBooksViewModel;
         }
     }
 }

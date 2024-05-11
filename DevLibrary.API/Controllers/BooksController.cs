@@ -21,10 +21,10 @@ namespace DevLibrary.API.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "manager, student")]
-        public async Task<IActionResult> Get(string query)
-        {
-            var getAllBooksQuery = new GetAllBooksQuery(query);
+        //[Authorize(Roles = "manager, student")]
+        [AllowAnonymous]
+        public async Task<IActionResult> Get(GetAllBooksQuery getAllBooksQuery)
+        {      
 
             var books = await _mediator.Send(getAllBooksQuery);
 
