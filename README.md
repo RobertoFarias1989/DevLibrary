@@ -1,4 +1,4 @@
-# DevFreela
+# DevLibrary
 [![NPM](https://img.shields.io/npm/l/react)](https://github.com/RobertoFarias1989/DevLibrary/blob/master/LICENSE) 
 
 
