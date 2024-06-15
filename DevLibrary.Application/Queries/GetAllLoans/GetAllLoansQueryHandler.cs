@@ -6,16 +6,16 @@ namespace DevLibrary.Application.Queries.GetAllLoans
 {
     public class GetAllLoansQueryHandler : IRequestHandler<GetAllLoansQuery, List<LoanViewModel>>
     {
-        private readonly ILoanRepository _loanRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public GetAllLoansQueryHandler(ILoanRepository loanRepository)
+        public GetAllLoansQueryHandler(IUnitOfWork unitOfWork)
         {
-            _loanRepository = loanRepository;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<List<LoanViewModel>> Handle(GetAllLoansQuery request, CancellationToken cancellationToken)
         {
-            var loan = await _loanRepository.GetAllAsync();
+            var loan = await _unitOfWork.LoanRepository.GetAllAsync();
 
             var loanViewModel = loan
                 .Select(l=> new LoanViewModel(l.Id,l.IdUser,l.IdBook))

@@ -11,7 +11,6 @@ namespace DevLibrary.Core.Repositories
     {
         Task<List<Loan>> GetAllAsync();
         Task AddLoanAsync(Loan loan);
-        Task<Loan> GetByIdAsync(int id);
-        Task SaveChangesAsync();
+        Task<Loan> GetByIdAsync(int id); 
     }
 }

@@ -5,31 +5,29 @@ namespace DevLibrary.Application.Commands.DeleteLoan
 {
     public class DeleteLoanCommandHandler : IRequestHandler<DeleteLoanCommand, Unit>
     {
-        private readonly ILoanRepository _loanRepository;
-        private readonly IBookRepository _bookRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public DeleteLoanCommandHandler(ILoanRepository loanRepository, IBookRepository bookRepository)
+        public DeleteLoanCommandHandler(IUnitOfWork unitOfWork)
         {
-            _loanRepository = loanRepository;
-            _bookRepository = bookRepository;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<Unit> Handle(DeleteLoanCommand request, CancellationToken cancellationToken)
         {
-            var loan = await _loanRepository.GetByIdAsync(request.Id);
+            var loan = await _unitOfWork.LoanRepository.GetByIdAsync(request.Id);
 
             //Informa a data do retorno do livro
             loan.ReturnedBook();
 
-            await _loanRepository.SaveChangesAsync();
+            await _unitOfWork.CompleteAsync();
 
             //Consulta o livro que foi emprestado
             //Atualiza as quantidades em estoque e a quantidade emprestada
-            var book = await _bookRepository.GetByIdAsync(loan.IdBook);
+            var book = await _unitOfWork.BookRepository.GetByIdAsync(loan.IdBook);
 
             book.ReturnedOnHand(loan.LoanedQuantity);
 
-            await _bookRepository.SaveChangesAsync();            
+            await _unitOfWork.CompleteAsync();
 
             return Unit.Value;
         }

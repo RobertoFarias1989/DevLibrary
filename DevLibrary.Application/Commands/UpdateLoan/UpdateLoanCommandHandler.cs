@@ -4,24 +4,23 @@ using MediatR;
 namespace DevLibrary.Application.Commands.UpdateLoan
 {
     public class UpdateLoanCommandHandler : IRequestHandler<UpdateLoanCommand, Unit>
-    {
-        private readonly ILoanRepository _loanRepository;
-
-        public UpdateLoanCommandHandler(ILoanRepository loanRepository)
+    {       
+        private readonly IUnitOfWork _unitOfWork;
+        public UpdateLoanCommandHandler(IUnitOfWork unitOfWork)
         {
-            _loanRepository = loanRepository;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<Unit> Handle(UpdateLoanCommand request, CancellationToken cancellationToken)
         {
-            var loan = await _loanRepository.GetByIdAsync(request.Id);
+            var loan = await _unitOfWork.LoanRepository.GetByIdAsync(request.Id);
 
             //Só pode renovar o empréstimo de um livro que não foi entregue.
             if(loan.ReturnedDate == null)
             {
                 loan.RenewLoan(request.RenewLoanedDay);
 
-                await _loanRepository.SaveChangesAsync();
+                await _unitOfWork.CompleteAsync();
             }
             else
             {
