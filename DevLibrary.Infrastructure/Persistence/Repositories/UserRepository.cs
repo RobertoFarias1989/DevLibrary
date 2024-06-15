@@ -47,11 +47,8 @@ namespace DevLibrary.Infrastructure.Persistence.Repositories
         public async Task AddUserAsync(User user)
         {
             await _dbContext.Users.AddAsync(user);
-            await _dbContext.SaveChangesAsync();
+            
         }
-
-
-
 
     }
 }

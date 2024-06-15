@@ -7,11 +7,11 @@ namespace DevLibrary.Application.Commands.CreateBook
 {
     public class CreateBookCommandHandler : IRequestHandler<CreateBookCommand, int>
     {
-        private readonly IBookRepository _bookRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public CreateBookCommandHandler(IBookRepository bookRepository)
+        public CreateBookCommandHandler(IUnitOfWork unitOfWork)
         {
-            _bookRepository = bookRepository;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<int> Handle(CreateBookCommand request, CancellationToken cancellationToken)
@@ -24,7 +24,9 @@ namespace DevLibrary.Application.Commands.CreateBook
 
             book.IncreaseOnHand(request.AddedQuantity);
 
-            await _bookRepository.AddAsync(book);
+            await _unitOfWork.BookRepository.AddAsync(book);
+
+            await _unitOfWork.CompleteAsync();
 
             return book.Id;
         }

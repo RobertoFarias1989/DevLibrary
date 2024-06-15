@@ -6,17 +6,17 @@ using MediatR;
 namespace DevLibrary.Application.Queries.GetAllBooks
 {
     public class GetAllBooksQueryHandler : IRequestHandler<GetAllBooksQuery, PaginationResult<BookViewModel>>
-    {
-        private readonly IBookRepository _bookRepository;
+    {       
+        private readonly IUnitOfWork _unitOfWork;
 
-        public GetAllBooksQueryHandler(IBookRepository bookRepository)
+        public GetAllBooksQueryHandler(IUnitOfWork unitOfWork)
         {
-            _bookRepository = bookRepository;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<PaginationResult<BookViewModel>> Handle(GetAllBooksQuery request, CancellationToken cancellationToken)
         {
-            var paginationBooks = await _bookRepository.GetAllAsync(request.Query, request.Page);
+            var paginationBooks = await _unitOfWork.BookRepository.GetAllAsync(request.Query, request.Page);
 
             var booksViewModel = paginationBooks
                 .Data

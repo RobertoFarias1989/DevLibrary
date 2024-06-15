@@ -8,31 +8,18 @@ namespace DevLibrary.Application.Queries.GetBookById
 {
     public class GetBookByIdQueryHandler : IRequestHandler<GetBookByIdQuery, BookDetailsViewModel>
     {
-        private readonly IBookRepository _bookRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public GetBookByIdQueryHandler(IBookRepository bookRepository)
+        public GetBookByIdQueryHandler(IUnitOfWork unitOfWork)
         {
-            _bookRepository = bookRepository;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<BookDetailsViewModel> Handle(GetBookByIdQuery request, CancellationToken cancellationToken)
         {
-            var book = await _bookRepository.GetDetailsByIdAsync(request.Id);
+            var book = await _unitOfWork.BookRepository.GetDetailsByIdAsync(request.Id);
 
             if(book == null) return null;
-
-            //var loans = book.Loans
-            //    .Where(l=> l.IdBook == book.Id)
-            //    .Select(l=>new LoanDetailsViewModel 
-            //    { 
-            //        Id = l.Id,
-            //        IdUser = l.IdUser,
-            //        IdBook = l.IdBook,
-            //        LoanDate = l.LoanDate,
-            //        LoanedQuantity = l.LoanedQuantity,
-            //        ExpectedReturnDate = l.ExpectedReturnDate,
-            //        ReturnedDate = l.ReturnedDate
-            //    }).ToList();
 
             var loans = book.Loans
                 .Where(l => l.IdBook == book.Id)

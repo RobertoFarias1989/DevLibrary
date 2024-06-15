@@ -7,16 +7,16 @@ namespace DevLibrary.Application.Queries.GetAllUsers
 {
     public class GetAllUsersQueryHandler : IRequestHandler<GetAllUsersQuery, PaginationResult<UserViewModel>>
     {
-        private readonly IUserRepository _userRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public GetAllUsersQueryHandler(IUserRepository userRepository)
+        public GetAllUsersQueryHandler(IUnitOfWork unitOfWork)
         {
-            _userRepository = userRepository;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<PaginationResult<UserViewModel>> Handle(GetAllUsersQuery request, CancellationToken cancellationToken)
         {
-            var paginationUsers =  await _userRepository.GetAllAsync(request.Query, request.Page);
+            var paginationUsers =  await _unitOfWork.UserRepository.GetAllAsync(request.Query, request.Page);
 
             var userViewModel = paginationUsers
                 .Data

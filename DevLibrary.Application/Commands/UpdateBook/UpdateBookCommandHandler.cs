@@ -4,17 +4,17 @@ using MediatR;
 namespace DevLibrary.Application.Commands.UpdateBook
 {
     public class UpdateBookCommandHandler : IRequestHandler<UpdateBookCommand, Unit>
-    {
-        private readonly IBookRepository _bookRepository;
+    {     
+        private readonly IUnitOfWork _unitOfWork;
 
-        public UpdateBookCommandHandler(IBookRepository bookRepository)
+        public UpdateBookCommandHandler(IUnitOfWork unitOfWork)
         {
-            _bookRepository = bookRepository;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<Unit> Handle(UpdateBookCommand request, CancellationToken cancellationToken)
         {
-            var book = await _bookRepository.GetByIdAsync(request.Id);
+            var book = await _unitOfWork.BookRepository.GetByIdAsync(request.Id);
 
             book.Update(request.Title, request.Author, request.ISBN, request.PublicationYear);
 
@@ -30,8 +30,8 @@ namespace DevLibrary.Application.Commands.UpdateBook
                 book.DecreaseOnHand(request.DecreseadQuantity);
             }
 
-            await _bookRepository.SaveChangesAsync();
-
+            await _unitOfWork.CompleteAsync();
+            
             return Unit.Value;
         }
     }

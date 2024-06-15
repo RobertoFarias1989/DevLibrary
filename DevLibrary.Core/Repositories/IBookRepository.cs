@@ -8,7 +8,6 @@ namespace DevLibrary.Core.Repositories
         Task<PaginationResult<Book>> GetAllAsync(string query, int page = 1);
         Task<Book> GetDetailsByIdAsync(int id);
         Task<Book> GetByIdAsync(int id);
-        Task AddAsync(Book book);
-        Task SaveChangesAsync();
+        Task AddAsync(Book book);       
     }
 }
