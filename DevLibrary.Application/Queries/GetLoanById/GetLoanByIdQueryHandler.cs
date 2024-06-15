@@ -6,16 +6,16 @@ namespace DevLibrary.Application.Queries.GetLoanById
 {
     public class GetLoanByIdQueryHandler : IRequestHandler<GetLoanByIdQuery, LoanDetailsViewModel>
     {
-        private readonly ILoanRepository _loanRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public GetLoanByIdQueryHandler(ILoanRepository loanRepository)
+        public GetLoanByIdQueryHandler(IUnitOfWork unitOfWork)
         {
-            _loanRepository = loanRepository;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<LoanDetailsViewModel> Handle(GetLoanByIdQuery request, CancellationToken cancellationToken)
         {
-            var loan = await _loanRepository.GetByIdAsync(request.Id);
+            var loan = await _unitOfWork.LoanRepository.GetByIdAsync(request.Id);
 
             if (loan == null) return null;
 

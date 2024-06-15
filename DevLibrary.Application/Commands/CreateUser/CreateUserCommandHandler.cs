@@ -6,13 +6,13 @@ using MediatR;
 namespace DevLibrary.Application.Commands.CreateUser
 {
     public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, int>
-    {
-        private readonly IUserRepository _userRepository;
+    { 
         private readonly IAuthService _authService;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public CreateUserCommandHandler(IUserRepository userRepository, IAuthService authService)
+        public CreateUserCommandHandler(IUnitOfWork unitOfWork, IAuthService authService)
         {
-            _userRepository = userRepository;
+            _unitOfWork = unitOfWork;
             _authService = authService;
         }
 
@@ -22,7 +22,9 @@ namespace DevLibrary.Application.Commands.CreateUser
 
             var user = new User(request.Name, request.Email, passwordHash, request.Role);
 
-            await _userRepository.AddUserAsync(user);
+            await _unitOfWork.UserRepository.AddUserAsync(user);
+
+            await _unitOfWork.CompleteAsync();
 
             return user.Id;
         }

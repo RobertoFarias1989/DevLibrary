@@ -7,24 +7,20 @@ namespace DevLibrary.Application.Commands.CreateLoan
 {
     public class CreateLoanCommandHandler : IRequestHandler<CreateLoanCommand, Unit>
     {
-        private readonly ILoanRepository _loanRepository;
-        private readonly IBookRepository _bookRepository;
-        private readonly IUserRepository _userRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public CreateLoanCommandHandler(ILoanRepository loanRepository, IBookRepository bookRepository, IUserRepository userRepository)
+        public CreateLoanCommandHandler(IUnitOfWork unitOfWork)
         {
-            _loanRepository = loanRepository;
-            _bookRepository = bookRepository;
-            _userRepository = userRepository;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<Unit> Handle(CreateLoanCommand request, CancellationToken cancellationToken)
         {
             
             //verificar primeiro se existem o usuário e o livro
-            var user = _userRepository.GetByIdAsync(request.IdUser);
+            var user = _unitOfWork.UserRepository.GetByIdAsync(request.IdUser);
 
-            var book = _bookRepository.GetByIdAsync(request.IdBook);
+            var book = _unitOfWork.BookRepository.GetByIdAsync(request.IdBook);
 
             //ver com o pessoal no sábado se esta é forma mais adequada
             if(user is null || book is null)
@@ -52,16 +48,18 @@ namespace DevLibrary.Application.Commands.CreateLoan
 
             loan.ExpectedReturnedDate(request.NumberLoanDay);
 
-            await _loanRepository.AddLoanAsync(loan);
+            await _unitOfWork.LoanRepository.AddLoanAsync(loan);
+
+            await _unitOfWork.CompleteAsync();
 
             //propósito aqui é reduzir a quantidade em estoque do livro emprestado
-            var loanedBook = await _bookRepository.GetByIdAsync(request.IdBook);
+            var loanedBook = await _unitOfWork.BookRepository.GetByIdAsync(request.IdBook);
 
             if(loanedBook != null)
             {
                 loanedBook.DecreaseOnHand(request.LoanedQuantity);
 
-                await _bookRepository.SaveChangesAsync();
+                await _unitOfWork.CompleteAsync();
             }            
 
             return Unit.Value;

@@ -25,15 +25,8 @@ namespace DevLibrary.Infrastructure.Persistence.Repositories
 
         public async Task AddLoanAsync(Loan loan)
         {
-            await _dbContext.Loans.AddAsync(loan);
-            await _dbContext.SaveChangesAsync();
+            await _dbContext.Loans.AddAsync(loan);          
         }
-
-        public async Task SaveChangesAsync()
-        {
-            await _dbContext.SaveChangesAsync();
-        }
-
 
     }
 }
