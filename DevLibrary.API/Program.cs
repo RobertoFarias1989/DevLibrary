@@ -1,8 +1,10 @@
 using DevLibrary.API.Filters;
+using DevLibrary.Application;
 using DevLibrary.Application.Commands.CreateBook;
 using DevLibrary.Application.Validators;
 using DevLibrary.Core.Repositories;
 using DevLibrary.Core.Services;
+using DevLibrary.Infrastructure;
 using DevLibrary.Infrastructure.Auth;
 using DevLibrary.Infrastructure.Persistence;
 using DevLibrary.Infrastructure.Persistence.Repositories;
@@ -18,18 +20,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers(options => options.Filters.Add(typeof(ValidationFilter)))
-    .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CreateBookCommandValidator>());
+builder.Services.AddControllers();
+builder.Services.AddApplication();
 
-var connectionString = builder.Configuration.GetConnectionString("DevLibrary");
-builder.Services.AddDbContext<DevLibraryDbContext>(options => options.UseSqlServer(connectionString));
-
-builder.Services.AddMediatR(typeof(CreateBookCommand));
-builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<IBookRepository, BookRepository>();
-builder.Services.AddScoped<ILoanRepository, LoanRepository>();
-builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddInfrastructure(builder.Configuration);
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
