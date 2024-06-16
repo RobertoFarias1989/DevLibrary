@@ -33,13 +33,16 @@ namespace DevLibrary.Infrastructure.Persistence.Repositories
 
         public async Task<Book> GetByIdAsync(int id)
         {
-            return await _dbContext.Books.SingleOrDefaultAsync(b => b.Id == id);
+            return await _dbContext.Books
+                .AsNoTracking()
+                .SingleOrDefaultAsync(b => b.Id == id);
         }
 
         public async Task<Book> GetDetailsByIdAsync(int id)
         {
             return await _dbContext.Books
                 .Include(b => b.Loans)
+                .AsNoTracking()
                 .SingleOrDefaultAsync(b => b.Id == id);
         }
         public async Task AddAsync(Book book)
@@ -48,5 +51,9 @@ namespace DevLibrary.Infrastructure.Persistence.Repositories
             
         }
 
+        public async Task UpdateBookAsync(Book book)
+        {
+            _dbContext.Books.Update(book);
+        }
     }
 }

@@ -29,13 +29,16 @@ namespace DevLibrary.Infrastructure.Persistence.Repositories
 
         public async Task<User> GetByIdAsync(int id)
         {
-            return await _dbContext.Users.SingleOrDefaultAsync(u => u.Id == id);
+            return await _dbContext.Users
+                .AsNoTracking()
+                .SingleOrDefaultAsync(u => u.Id == id);
         }
 
         public async Task<User> GetDetailsByIdAsync(int id)
         {
             return await _dbContext.Users
                 .Include(u => u.Loans)
+                .AsNoTracking()
                 .SingleOrDefaultAsync(u => u.Id == id);
         }
 
