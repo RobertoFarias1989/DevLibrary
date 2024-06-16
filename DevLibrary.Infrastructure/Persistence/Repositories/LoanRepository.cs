@@ -15,12 +15,16 @@ namespace DevLibrary.Infrastructure.Persistence.Repositories
 
         public async Task<List<Loan>> GetAllAsync()
         {
-           return await _dbContext.Loans.AsNoTracking().ToListAsync();
+           return await _dbContext.Loans
+                .AsNoTracking()
+                .ToListAsync();
         }
 
         public async Task<Loan> GetByIdAsync(int id)
         {
-            return await _dbContext.Loans.SingleOrDefaultAsync(l => l.Id == id);
+            return await _dbContext.Loans
+                .AsNoTracking()
+                .SingleOrDefaultAsync(l => l.Id == id);
         }
 
         public async Task AddLoanAsync(Loan loan)
@@ -28,5 +32,9 @@ namespace DevLibrary.Infrastructure.Persistence.Repositories
             await _dbContext.Loans.AddAsync(loan);          
         }
 
+        public async Task UpdateLoanAsync(Loan loan)
+        {
+            _dbContext.Loans.Update(loan);
+        }
     }
 }

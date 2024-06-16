@@ -19,6 +19,8 @@ namespace DevLibrary.Application.Commands.DeleteLoan
             //Informa a data do retorno do livro
             loan.ReturnedBook();
 
+            await _unitOfWork.LoanRepository.UpdateLoanAsync(loan);
+
             await _unitOfWork.CompleteAsync();
 
             //Consulta o livro que foi emprestado
@@ -26,6 +28,8 @@ namespace DevLibrary.Application.Commands.DeleteLoan
             var book = await _unitOfWork.BookRepository.GetByIdAsync(loan.IdBook);
 
             book.ReturnedOnHand(loan.LoanedQuantity);
+
+            await _unitOfWork.BookRepository.UpdateBookAsync(book);
 
             await _unitOfWork.CompleteAsync();
 

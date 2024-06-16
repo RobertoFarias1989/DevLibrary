@@ -20,6 +20,8 @@ namespace DevLibrary.Application.Commands.UpdateLoan
             {
                 loan.RenewLoan(request.RenewLoanedDay);
 
+                await _unitOfWork.LoanRepository.UpdateLoanAsync(loan);
+
                 await _unitOfWork.CompleteAsync();
             }
             else
