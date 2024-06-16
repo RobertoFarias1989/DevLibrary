@@ -1,9 +1,4 @@
 ﻿using DevLibrary.Core.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DevLibrary.Core.Repositories
 {
@@ -11,6 +6,7 @@ namespace DevLibrary.Core.Repositories
     {
         Task<List<Loan>> GetAllAsync();
         Task AddLoanAsync(Loan loan);
+        Task UpdateLoanAsync(Loan loan);
         Task<Loan> GetByIdAsync(int id); 
     }
 }

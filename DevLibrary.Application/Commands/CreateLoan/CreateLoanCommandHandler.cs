@@ -59,6 +59,8 @@ namespace DevLibrary.Application.Commands.CreateLoan
             {
                 loanedBook.DecreaseOnHand(request.LoanedQuantity);
 
+                await _unitOfWork.BookRepository.UpdateBookAsync(loanedBook);
+
                 await _unitOfWork.CompleteAsync();
             }            
 

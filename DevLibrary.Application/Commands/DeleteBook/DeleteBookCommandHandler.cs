@@ -23,6 +23,8 @@ namespace DevLibrary.Application.Commands.DeleteBook
             {
                 book.Unavailable();
 
+                await _unitOfWork.BookRepository.UpdateBookAsync(book);
+
                 await _unitOfWork.CompleteAsync();
             }
             else
